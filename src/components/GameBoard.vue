@@ -6,6 +6,7 @@
       :number="cell.number"
       :x="cell.x" 
       :y="cell.y"
+      :players="cell.players"
     />
     <!-- Armory cells -->
     <BoardCell v-for="(cell, index) in armory" 
@@ -13,6 +14,7 @@
       :number="cell.number"
       :x="cell.x" 
       :y="cell.y"
+      :players="cell.players"
     />
     <!-- Forest cells -->
     <BoardCell v-for="(cell, index) in forest" 
@@ -20,6 +22,7 @@
       :number="cell.number"
       :x="cell.x" 
       :y="cell.y"
+      :players="cell.players"
     />
     <!-- Castle cells -->
     <BoardCell v-for="(cell, index) in castle" 
@@ -27,6 +30,7 @@
       :number="cell.number"
       :x="cell.x" 
       :y="cell.y"
+      :players="cell.players"
     />
   </div>
 </template>
@@ -43,8 +47,8 @@ export default {
     return {
       cells: [
         // to top
-        { number: 1, x: 1, y: 12 },
-        { number: 2, x: 1, y: 11 },
+        { number: 1, x: 1, y: 12, players: ['red'] },
+        { number: 2, x: 1, y: 11, players: ['brown', 'black', 'white'] },
         { number: 3, x: 1, y: 10 },
         { number: 4, x: 1, y: 9 },
         { number: 5, x: 1, y: 8 },
@@ -127,7 +131,7 @@ export default {
       armory: [
         // to top
         { number: 1, x: 6, y: 11 },
-        { number: 2, x: 6, y: 10 },
+        { number: 2, x: 6, y: 10, players: ['green'] },
         { number: 3, x: 6, y: 9 },
         // to right
         { number: 4, x: 7, y: 9 },
@@ -154,7 +158,7 @@ export default {
         // to bottom
         { number: 7, x: 18, y: 12 },
         { number: 8, x: 18, y: 13 },
-        { number: 9, x: 18, y: 14 },
+        { number: 9, x: 18, y: 14, players: ['blue'] },
         // to left
         { number: 10, x: 17, y: 14 },
         { number: 11, x: 16, y: 14 },
@@ -170,7 +174,7 @@ export default {
         { number: 3, x: 8, y: 3 },
         // to right
         { number: 4, x: 9, y: 3 },
-        { number: 5, x: 10, y: 3 },
+        { number: 5, x: 10, y: 3, players: ['yellow', 'purple'] },
         // to bottom
         { number: 6, x: 10, y: 4 },
         { number: 7, x: 10, y: 5 },

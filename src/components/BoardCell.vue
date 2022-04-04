@@ -1,10 +1,20 @@
 <template>
-  <div class="gameboard__cell" :style="styles">{{ number }}</div>
+  <div class="gameboard__cell" :style="styles">
+    <div v-if="players.length > 0" class="gameboard__cell--camp">
+      <PlayerStatue v-for="name in players" :key="name + ' player'" :name="name" :size="size" />
+    </div>
+    <div v-else>{{ number }}</div>
+  </div>
 </template>
 
 <script>
+import PlayerStatue from '@/components/PlayerStatue.vue';
+
 export default {
   name: 'BoardCell',
+  components: {
+    PlayerStatue
+  },
   props: {
     number: [String, Number],
     x: {
@@ -14,6 +24,10 @@ export default {
     y: {
       type: Number,
       required: true
+    },
+    players: {
+      type: Array,
+      default: []
     }
   },
   computed: {
@@ -22,38 +36,52 @@ export default {
         'grid-column-start': this.x, 
         'grid-row-start': this.y
       }
+    },
+    size() {
+      return 1.5 / this.players.length
     }
   },
 }
 </script>
 
 <style lang="less">
-.gameboard__cell {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-  box-shadow: 0 0 0 3px saddlebrown;
-  font-family: 'Cabin Sketch', cursive;
-  font-size: 3.33333vh;
-  color: saddlebrown;
-
-  // desktop media aspect ration
-  @media (min-aspect-ratio: 8/5) {
+.gameboard {
+  &__cell {    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background-color: white;
+    box-shadow: 0 0 0 3px saddlebrown;
+    font-family: 'Cabin Sketch', cursive;
     font-size: 3.33333vh;
-  }
+    color: saddlebrown;
 
-  // mobile media aspect ration
-  @media (max-aspect-ratio: 3/2) {
-    font-size: 2.45vw;
-  }
+    // desktop media aspect ration
+    @media (min-aspect-ratio: 8/5) {
+      font-size: 3.33333vh;
+    }
 
-  @media (max-width: 1366px), (max-height: 768px){
-    box-shadow: 0 0 0 2px saddlebrown;
-  }
+    // mobile media aspect ration
+    @media (max-aspect-ratio: 3/2) {
+      font-size: 2.45vw;
+    }
 
-  @media (max-width: 768px), (max-height: 480px) {
-    box-shadow: 0 0 0 1px saddlebrown;
+    @media (max-width: 1366px), (max-height: 768px){
+      box-shadow: 0 0 0 2px saddlebrown;
+    }
+
+    @media (max-width: 768px), (max-height: 480px) {
+      box-shadow: 0 0 0 1px saddlebrown;
+    }
+  
+    &--camp {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+    }
   }
 }
 </style>
