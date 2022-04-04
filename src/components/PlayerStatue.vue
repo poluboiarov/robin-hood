@@ -1,6 +1,6 @@
 <template>
-  <div class="player" :style="fontSize">
-    <span class="player__statue" v-html="statue"></span>
+  <div class="player" :style="statueSize" @click="moveStatue">
+    <span class="player__statue" v-html="statueColor"></span>
   </div>
 </template>
 
@@ -29,13 +29,16 @@ export default {
     }
   },
   computed: {
-    statue() {
+    statueColor() {
       return this.colors[this.name]
     },
-    fontSize() {
-      return {
-        'font-size': (this.size >= 1) ? 1 : this.size + 'em'
-      }
+    statueSize() {
+      return (this.size >= 1) ? 'font-size: 1em' : `font-size: ${this.size}em`
+    }
+  },
+  methods: {
+    moveStatue() {
+      this.$emit('moveStatue', { name: this.name })
     }
   },
 }
@@ -43,6 +46,9 @@ export default {
 
 <style lang="less">
 .player {
+  cursor: pointer;
+  user-select: none;
+
   &__statue {
     position: relative;
     top: 0.055em;

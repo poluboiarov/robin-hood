@@ -1,9 +1,13 @@
 <template>
-  <div class="gameboard__cell" :style="styles">
+  <div class="gameboard__cell" :style="cellCoordinates">
     <div v-if="players.length > 0" class="gameboard__cell--camp">
-      <PlayerStatue v-for="name in players" :key="name + ' player'" :name="name" :size="size" />
+      <PlayerStatue v-for="name in players" 
+        :key="name + ' player'" 
+        :name="name" 
+        :size="statueSize"
+        @moveStatue="moveStatue" />
     </div>
-    <div v-else>{{ number }}</div>
+    <div v-else>{{ name }}</div>
   </div>
 </template>
 
@@ -16,7 +20,7 @@ export default {
     PlayerStatue
   },
   props: {
-    number: [String, Number],
+    name: [String, Number],
     x: {
       type: Number,
       required: true
@@ -31,14 +35,23 @@ export default {
     }
   },
   computed: {
-    styles() {
+    cellCoordinates() {
       return {
         'grid-column-start': this.x, 
         'grid-row-start': this.y
       }
     },
-    size() {
+    statueSize() {
       return 1.5 / this.players.length
+    }
+  },
+  methods: {
+    moveStatue(player) {
+      this.$emit('moveStatue', { 
+        playerName: player.name, 
+        moveFrom: this.name, 
+        moveTo: 4 
+      })
     }
   },
 }
