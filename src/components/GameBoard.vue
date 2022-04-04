@@ -1,4 +1,5 @@
 <template>
+  <Dice v-if="!isObjectEmpty(lastMove)" :player="lastMove.player" :dice="lastMove.dice" />
   <div class="gameboard">
     <!-- Main cells -->
     <BoardCell v-for="(cell, index) in getCells" 
@@ -8,6 +9,7 @@
       :y="cell.y"
       :players="cell.players"
       @moveStatue="movePlayer"
+      @passDice="rollDice"
     />
     <!-- Armory cells -->
     <BoardCell v-for="(cell, index) in getArmory" 
@@ -17,6 +19,7 @@
       :y="cell.y"
       :players="cell.players"
       @moveStatue="movePlayer"
+      @passDice="rollDice"
     />
     <!-- Forest cells -->
     <BoardCell v-for="(cell, index) in getForest" 
@@ -26,6 +29,7 @@
       :y="cell.y"
       :players="cell.players"
       @moveStatue="movePlayer"
+      @passDice="rollDice"
     />
     <!-- Castle cells -->
     <BoardCell v-for="(cell, index) in getCastle" 
@@ -35,23 +39,26 @@
       :y="cell.y"
       :players="cell.players"
       @moveStatue="movePlayer"
+      @passDice="rollDice"
     />
   </div>
 </template>
 
 <script>
 import BoardCell from '@/components/BoardCell.vue';
+import Dice from '@/components/Dice.vue';
 
 export default {
   name: 'GameBoard',
   components: {
     BoardCell,
+    Dice
   },
   data() {
     return {
       cells: [
         // to top
-        { name: 'Start', x: 1, y: 13 },
+        { name: 0, x: 1, y: 13 },
         { name: 1, x: 1, y: 12 },
         { name: 2, x: 1, y: 11 },
         { name: 3, x: 1, y: 10 },
@@ -185,7 +192,8 @@ export default {
         { name: 7, x: 10, y: 5 },
         // to left
         { name: 8, x: 9, y: 5 }
-      ]
+      ],
+      lastMove: {}
     }
   },
   computed: {
@@ -204,10 +212,20 @@ export default {
   },
   beforeMount() {
     this.cells.forEach((cell) => { cell.players = [] })
-    this.cells[0].players = ['red', 'green', 'blue']
+    this.cells[0].players = ['red', 'green', 'blue', 'white', 'brown', 'black']
   },
   methods: {
+    isObjectEmpty(object) {
+      for (let key in object) { return false }
+      return true
+    },
+    rollDice(diceData) {
+      this.lastMove.player = diceData.player
+      this.lastMove.dice = diceData.dice
+    },
     movePlayer(moveData) {
+      console.log(moveData)
+
       let fromCell = this.cells.find((cell) => cell.name === moveData.moveFrom)
       let toCell = this.cells.find((cell) => cell.name === moveData.moveTo)
       let playerIndex = fromCell.players.indexOf(moveData.playerName)

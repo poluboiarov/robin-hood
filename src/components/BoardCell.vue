@@ -5,7 +5,8 @@
         :key="name + ' player'" 
         :name="name" 
         :size="statueSize"
-        @moveStatue="moveStatue" />
+        @moveStatue="moveStatue"
+        @passDice="rollDice" />
     </div>
     <div v-else>{{ name }}</div>
   </div>
@@ -46,11 +47,14 @@ export default {
     }
   },
   methods: {
+    rollDice(diceData) {
+      this.$emit('passDice', diceData)
+    },
     moveStatue(player) {
       this.$emit('moveStatue', { 
         playerName: player.name, 
         moveFrom: this.name, 
-        moveTo: 4 
+        moveTo: parseInt(this.name + player.dice)
       })
     }
   },
@@ -59,7 +63,7 @@ export default {
 
 <style lang="less">
 .gameboard {
-  &__cell {    
+  &__cell {
     display: flex;
     justify-content: center;
     align-items: center;

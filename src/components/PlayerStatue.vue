@@ -25,7 +25,9 @@ export default {
         brown: '&#128996;',
         black: '&#9899;',
         white: '&#9898;'
-      }
+      },
+      dice: 0,
+      counter: [0, 0, 0, 0, 0, 0]
     }
   },
   computed: {
@@ -37,8 +39,15 @@ export default {
     }
   },
   methods: {
+    rollDice() {
+      let random = Math.random() * 6 + 1
+      this.dice = Math.floor(random)
+
+      this.$emit('passDice', { player: this.name, dice: this.dice })
+    },
     moveStatue() {
-      this.$emit('moveStatue', { name: this.name })
+      this.rollDice()
+      this.$emit('moveStatue', { name: this.name, dice: this.dice })
     }
   },
 }
