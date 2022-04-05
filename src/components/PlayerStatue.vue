@@ -26,8 +26,7 @@ export default {
         black: '&#9899;',
         white: '&#9898;'
       },
-      dice: 0,
-      counter: [0, 0, 0, 0, 0, 0]
+      dice: 0
     }
   },
   computed: {

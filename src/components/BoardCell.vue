@@ -9,16 +9,21 @@
         @passDice="rollDice" />
     </div>
     <div v-else>{{ name }}</div>
+    <Arrow v-if="destination" 
+      :from="{ name: name, x: x, y: y }" 
+      :to="destination" />
   </div>
 </template>
 
 <script>
 import PlayerStatue from '@/components/PlayerStatue.vue';
+import Arrow from '@/components/Arrow.vue';
 
 export default {
   name: 'BoardCell',
   components: {
-    PlayerStatue
+    PlayerStatue,
+    Arrow
   },
   props: {
     name: [String, Number],
@@ -33,7 +38,8 @@ export default {
     players: {
       type: Array,
       default: []
-    }
+    },
+    destination: Object
   },
   computed: {
     cellCoordinates() {

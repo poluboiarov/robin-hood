@@ -8,6 +8,7 @@
       :x="cell.x" 
       :y="cell.y"
       :players="cell.players"
+      :destination="cell.destination"
       @moveStatue="movePlayer"
       @passDice="rollDice"
     />
@@ -211,8 +212,11 @@ export default {
     }
   },
   beforeMount() {
+    // Initial players
     this.cells.forEach((cell) => { cell.players = [] })
-    this.cells[0].players = ['red', 'green', 'blue', 'white', 'brown', 'black']
+    this.cells[0].players = ['red', 'green', 'blue']
+    // Setup arrows
+    this.cells[5].destination = this.cells[10]
   },
   methods: {
     isObjectEmpty(object) {
@@ -232,6 +236,13 @@ export default {
 
       this.removeStatue(fromCell, playerIndex)
       this.addStatue(toCell, moveData.playerName)
+
+      if (toCell.destination) {
+        setTimeout(() => {
+          this.removeStatue(toCell, 0)
+          this.addStatue(toCell.destination, moveData.playerName)
+        }, 1000)
+      }
     },
     removeStatue(cell, player) {
       cell.players.splice(player, 1)
